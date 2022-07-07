@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCNM8LONnr9I8NhC5ZhmkY9E7AIDb9twYE',
-    appId: '1:310717182494:android:bf43039e5cd155956b740f',
+    appId: '1:310717182494:android:d842b4fef4fa4b926b740f',
     messagingSenderId: '310717182494',
     projectId: 'meal-app-6ede5',
     storageBucket: 'meal-app-6ede5.appspot.com',
@@ -59,11 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAFMWRH2N9JFKjrbRg6eNmjAlqd2taJsvo',
-    appId: '1:310717182494:ios:08b7fb35c8109fe76b740f',
+    appId: '1:310717182494:ios:cd492aa1aa64d11f6b740f',
     messagingSenderId: '310717182494',
     projectId: 'meal-app-6ede5',
     storageBucket: 'meal-app-6ede5.appspot.com',
-    iosClientId: '310717182494-mlv4i97o2ds2b7abnlbp4tebe4sbfkah.apps.googleusercontent.com',
-    iosBundleId: 'com.example.prototype',
+    iosClientId: '310717182494-lmhe3n7uatlb5agjjggutpm43con5gal.apps.googleusercontent.com',
+    iosBundleId: 'com.prototype.app',
   );
 }

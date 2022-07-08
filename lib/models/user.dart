@@ -1,8 +1,8 @@
 part of 'models.dart';
-class UserClass{
+class UserModel{
   String id, name, email;
   List<String> likes, dislikes;
 
-  UserClass(this.id, this.name, this.email, this.likes, this.dislikes);
+  UserModel(this.id, this.name, this.email, this.likes, this.dislikes);
   
 }

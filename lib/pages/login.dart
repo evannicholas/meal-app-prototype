@@ -12,30 +12,49 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+      } else {
+        Navigator.pushReplacementNamed(context, '/home');
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Login")),
       body: Column(children: [
-      TextField(controller: emailController, decoration: InputDecoration(labelText: "Email"),),
-      TextField(controller: passwordController,decoration: InputDecoration(labelText: "Password"), obscureText: true,),
-      Row(children: [
-        ElevatedButton(onPressed: () async {
-           await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: emailController.text.trim(), 
-            password: passwordController.text.trim()
-          );
-
-        }, child: Text("Login")),
-        ElevatedButton(onPressed: (){
-
-        }, child: Text("Register"))
-        
-        ],
+        TextField(
+          controller: emailController,
+          decoration: InputDecoration(labelText: "Email"),
         ),
-      
+        TextField(
+          controller: passwordController,
+          decoration: InputDecoration(labelText: "Password"),
+          obscureText: true,
+        ),
+        Row(
+          children: [
+            ElevatedButton(
+                onPressed: () async {
+                  bool result = await loginAuth(
+                      emailController.text, passwordController.text);
+                  if (result) {
+                    Navigator.pushReplacementNamed(context, '/home');
+                  }
+                },
+                child: Text("Login")),
+            ElevatedButton(onPressed: () {
+              Navigator.pushReplacementNamed(context, '/register');
+            }, child: Text("Register"))
+          ],
+        ),
       ]),
-      
-
     );
   }
 }

@@ -19,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
       if (user == null) {
         print('User is currently signed out!');
       } else {
+        autoLogin(user);
         Navigator.pushReplacementNamed(context, '/home');
       }
     });
@@ -50,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                 },
                 child: Text("Login")),
             ElevatedButton(onPressed: () {
-              Navigator.pushReplacementNamed(context, '/register');
+              Navigator.pushNamed(context, '/register');
             }, child: Text("Register"))
           ],
         ),

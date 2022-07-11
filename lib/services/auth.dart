@@ -1,13 +1,14 @@
 part of 'services.dart';
 
-String currentUser = "";
+UserModel? currentUser;
+
 
 Future<bool> loginAuth(String email, String password) async {
   bool result = false;
   try {
     final credential = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
-    currentUser = credential.user!.email!;
+    // currentUser = UserModel(credential.user!.uid, name, email, likes, dislikes);
     result = true;
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
@@ -20,9 +21,38 @@ Future<bool> loginAuth(String email, String password) async {
 
 }
 
-void setupAuthStateChanges(){
- 
+Future<void> signUp(String name, String email, String password) async{
+  UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+  //Insert user to firestore
+  await FirebaseFirestore.instance.collection("users")
+    .doc(userCredential.user!.uid)
+    .set({
+      'name': name,
+      'likes': [],
+      'dislikes': []
+    })
+    .onError((e, _) => print("Error writing document: $e"));
+  
 }
+
+void autoLogin(User user) async{
+   DocumentSnapshot doc = await FirebaseFirestore.instance.collection("users").doc(user.uid).get();
+   final data = doc.data() as Map<String, dynamic>;
+  // Map <String, dynamic> data = jsonEncode(doc.data());
+   var likes = (data['likes'] as List).map((x)=> x as String).toList();
+   var dislikes = (data['dislikes'] as List).map((x)=> x as String).toList();
+   print("============================");
+  //  print(likes);
+  //  print(user.uid);
+  //  print(data['name']);
+  //  print(data['likes'] == likes);
+  //  print(data['dislikes'].toString() == dislikes);
+   print("============================");
+   currentUser = UserModel(user.uid, data['name'], user.email!, likes, dislikes);
+}
+
+
+
 
 
 

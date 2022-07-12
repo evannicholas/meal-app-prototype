@@ -14,12 +14,12 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    
+    FirebaseAuth.instance.authStateChanges().listen((User? user) async {
       if (user == null) {
         print('User is currently signed out!');
       } else {
-        autoLogin(user);
+        await autoLogin(user);
         Navigator.pushReplacementNamed(context, '/home');
       }
     });

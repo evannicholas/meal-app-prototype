@@ -35,7 +35,7 @@ Future<void> signUp(String name, String email, String password) async{
   
 }
 
-void autoLogin(User user) async{
+Future<void> autoLogin(User user) async{
    DocumentSnapshot doc = await FirebaseFirestore.instance.collection("users").doc(user.uid).get();
    final data = doc.data() as Map<String, dynamic>;
   // Map <String, dynamic> data = jsonEncode(doc.data());

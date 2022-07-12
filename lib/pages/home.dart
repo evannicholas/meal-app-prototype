@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
       case 0:
         {
           print("home");
-          return Text("Home");
+          return Text("welcome " + currentUser!.name);
         }
         break;
 
@@ -43,10 +43,11 @@ class _HomePageState extends State<HomePage> {
         {
           return Column(
             children: [
-              Text("Profile"),
+              
               ElevatedButton(
                 child: Text('logout'),
                 onPressed: () async{
+                  
                   await FirebaseAuth.instance.signOut();
                   Navigator.pushReplacementNamed(context, "/login");
 
@@ -87,6 +88,7 @@ class _HomePageState extends State<HomePage> {
         selectedItemColor: Colors.amber[800],
         currentIndex: _selectedIndex,
         onTap: _onButtonTapped,
+        type: BottomNavigationBarType.fixed
         ),
         
       

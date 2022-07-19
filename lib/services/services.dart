@@ -8,5 +8,6 @@ import 'package:prototype/pages/pages.dart';
 import '../models/models.dart';
 
 part 'auth.dart';
+part 'swipecards.dart';
 
 

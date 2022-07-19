@@ -20,35 +20,44 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
     Colors.orange
   ];
 
-  @override
-  void initState() {
-    for (int i = 0; i < _names.length; i++) {
+  void loadData() async {
+    List<MealClass> data = await loadSwipeCardContent();
+    
+    for (int i = 0; i < data.length; i++) {
       _swipeItems.add(SwipeItem(
-          content: Content(text: _names[i], color: _colors[i]),
+          content: Content(text: data[i].name, color: _colors[i]),
           likeAction: () {
-            _scaffoldKey.currentState?.showSnackBar(SnackBar(
-              content: Text("Liked ${_names[i]}"),
-              duration: Duration(milliseconds: 500),
-            ));
+            // _scaffoldKey.currentState?.showSnackBar(SnackBar(
+            //   content: Text("Liked ${_names[i]}"),
+            //   duration: Duration(milliseconds: 500),
+            // ));
+            print("Liked ${_names[i]}");
           },
           nopeAction: () {
-            _scaffoldKey.currentState?.showSnackBar(SnackBar(
-              content: Text("Nope ${_names[i]}"),
-              duration: Duration(milliseconds: 500),
-            ));
+            // _scaffoldKey.currentState?.showSnackBar(SnackBar(
+            //   content: Text("Nope ${_names[i]}"),
+            //   duration: Duration(milliseconds: 500),
+            // ));
+            print("Nope ${_names[i]}");
           },
           superlikeAction: () {
-            _scaffoldKey.currentState?.showSnackBar(SnackBar(
-              content: Text("Superliked ${_names[i]}"),
-              duration: Duration(milliseconds: 500),
-            ));
+            // _scaffoldKey.currentState?.showSnackBar(SnackBar(
+            //   content: Text("Superliked ${_names[i]}"),
+            //   duration: Duration(milliseconds: 500),
+            // ));
+            print("Superliked ${_names[i]}");
           },
           onSlideUpdate: (SlideRegion? region) async {
-            print("Region $region");
+            // print("Region $region");
           }));
     }
 
     _matchEngine = MatchEngine(swipeItems: _swipeItems);
+  }
+
+  @override
+  void initState() {
+    loadData();
     super.initState();
   }
 

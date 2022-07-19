@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
       case 0:
         {
           print("home");
-          return Text("welcome " + currentUser!.name);
+          return SwipeCardsWidget();
         }
         break;
 

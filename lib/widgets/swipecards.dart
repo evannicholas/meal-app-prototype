@@ -58,7 +58,9 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
           onSlideUpdate: (SlideRegion? region) async {
             // print("Region $region");
           }));
+      print("CARD ADDED");
     }
+    setState((){});// refresh
     
     _matchEngine =await MatchEngine(swipeItems: _swipeItems);
     print(_matchEngine);
@@ -66,64 +68,9 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
 
   @override
   void initState() {
-    super.initState();
     loadData();
+    super.initState();
   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(children: [
-//       Container(
-//         height: 550,
-//         child: FutureBuilder<MatchEngine>(builder:((context, snapshot) => SwipeCards(
-//           matchEngine: _matchEngine!,
-//           itemBuilder: (BuildContext context, int index) {
-//             return Container(
-//               alignment: Alignment.center,
-//               color: _swipeItems[index].content.color,
-//               child: Text(
-//                 _swipeItems[index].content.text,
-//                 style: TextStyle(fontSize: 100),
-//               ),
-//             );
-//           },
-//           onStackFinished: () {
-//             // _scaffoldKey.currentState.showSnackBar(SnackBar(
-//             //   content: Text("Stack Finished"),
-//             //   duration: Duration(milliseconds: 500),
-//             // ));
-//             print("Stack finish");
-//           },
-//           itemChanged: (SwipeItem item, int index) {
-//             print("item: ${item.content.text}, index: $index");
-//           },
-//           upSwipeAllowed: true,
-//           fillSpace: true,
-//         )) ,future: _matchEngine)
-//       ),
-//       Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//         children: [
-//           ElevatedButton(
-//               onPressed: () {
-//                 _matchEngine?.currentItem?.nope();
-//               },
-//               child: Text("Nope")),
-//           ElevatedButton(
-//               onPressed: () {
-//                 _matchEngine?.currentItem?.superLike();
-//               },
-//               child: Text("Superlike")),
-//           ElevatedButton(
-//               onPressed: () {
-//                 _matchEngine?.currentItem?.like();
-//               },
-//               child: Text("Like"))
-//         ],
-//       )
-//     ]);
-//   }
-// }
 
   @override
   Widget build(BuildContext context) {
@@ -161,17 +108,17 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
         children: [
           ElevatedButton(
               onPressed: () {
-                _matchEngine?.currentItem?.nope();
+                _matchEngine!.currentItem?.nope();
               },
               child: Text("Nope")),
           ElevatedButton(
               onPressed: () {
-                _matchEngine?.currentItem?.superLike();
+                _matchEngine!.currentItem?.superLike();
               },
               child: Text("Superlike")),
           ElevatedButton(
               onPressed: () {
-                _matchEngine?.currentItem?.like();
+                _matchEngine!.currentItem?.like();
               },
               child: Text("Like"))
         ],

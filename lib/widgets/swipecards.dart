@@ -9,7 +9,7 @@ class SwipeCardsWidget extends StatefulWidget {
 
 class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
   List<SwipeItem> _swipeItems = <SwipeItem>[];
-  late MatchEngine _matchEngine;
+  MatchEngine? _matchEngine;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   List<String> _names = ["Red", "Blue", "Green", "Yellow", "Orange"];
   List<Color> _colors = [
@@ -17,57 +17,121 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
     Colors.blue,
     Colors.green,
     Colors.yellow,
-    Colors.orange
+    Colors.orange,
+    Colors.orange,
+    Colors.orange,
+    Colors.orange,
+    Colors.orange,
+    Colors.orange,
+    Colors.orange,
+    Colors.orange,
   ];
+  List<MealClass>? data;
 
   void loadData() async {
-    List<MealClass> data = await loadSwipeCardContent();
-    
-    for (int i = 0; i < data.length; i++) {
+
+    data = await loadSwipeCardContent();
+    for (int i = 0; i < data!.length - 1; i++) {
       _swipeItems.add(SwipeItem(
-          content: Content(text: data[i].name, color: _colors[i]),
+          content: Content(text: data![i].name, color: _colors[i]),
           likeAction: () {
             // _scaffoldKey.currentState?.showSnackBar(SnackBar(
             //   content: Text("Liked ${_names[i]}"),
             //   duration: Duration(milliseconds: 500),
             // ));
-            print("Liked ${_names[i]}");
+            print("Liked ${data![i].name}");
           },
           nopeAction: () {
             // _scaffoldKey.currentState?.showSnackBar(SnackBar(
             //   content: Text("Nope ${_names[i]}"),
             //   duration: Duration(milliseconds: 500),
             // ));
-            print("Nope ${_names[i]}");
+            print("Nope ${data![i].name}");
           },
           superlikeAction: () {
             // _scaffoldKey.currentState?.showSnackBar(SnackBar(
             //   content: Text("Superliked ${_names[i]}"),
             //   duration: Duration(milliseconds: 500),
             // ));
-            print("Superliked ${_names[i]}");
+            print("Superliked ${data![i].name}");
           },
           onSlideUpdate: (SlideRegion? region) async {
             // print("Region $region");
           }));
     }
-
-    _matchEngine = MatchEngine(swipeItems: _swipeItems);
+    
+    _matchEngine =await MatchEngine(swipeItems: _swipeItems);
+    print(_matchEngine);
   }
 
   @override
   void initState() {
-    loadData();
     super.initState();
+    loadData();
   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(children: [
+//       Container(
+//         height: 550,
+//         child: FutureBuilder<MatchEngine>(builder:((context, snapshot) => SwipeCards(
+//           matchEngine: _matchEngine!,
+//           itemBuilder: (BuildContext context, int index) {
+//             return Container(
+//               alignment: Alignment.center,
+//               color: _swipeItems[index].content.color,
+//               child: Text(
+//                 _swipeItems[index].content.text,
+//                 style: TextStyle(fontSize: 100),
+//               ),
+//             );
+//           },
+//           onStackFinished: () {
+//             // _scaffoldKey.currentState.showSnackBar(SnackBar(
+//             //   content: Text("Stack Finished"),
+//             //   duration: Duration(milliseconds: 500),
+//             // ));
+//             print("Stack finish");
+//           },
+//           itemChanged: (SwipeItem item, int index) {
+//             print("item: ${item.content.text}, index: $index");
+//           },
+//           upSwipeAllowed: true,
+//           fillSpace: true,
+//         )) ,future: _matchEngine)
+//       ),
+//       Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//         children: [
+//           ElevatedButton(
+//               onPressed: () {
+//                 _matchEngine?.currentItem?.nope();
+//               },
+//               child: Text("Nope")),
+//           ElevatedButton(
+//               onPressed: () {
+//                 _matchEngine?.currentItem?.superLike();
+//               },
+//               child: Text("Superlike")),
+//           ElevatedButton(
+//               onPressed: () {
+//                 _matchEngine?.currentItem?.like();
+//               },
+//               child: Text("Like"))
+//         ],
+//       )
+//     ]);
+//   }
+// }
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
       Container(
         height: 550,
-        child: SwipeCards(
-          matchEngine: _matchEngine,
+        child: _matchEngine != null ? SwipeCards(
+          matchEngine: _matchEngine!,
           itemBuilder: (BuildContext context, int index) {
             return Container(
               alignment: Alignment.center,
@@ -90,24 +154,24 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
           },
           upSwipeAllowed: true,
           fillSpace: true,
-        ),
+        ):SizedBox()
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           ElevatedButton(
               onPressed: () {
-                _matchEngine.currentItem?.nope();
+                _matchEngine?.currentItem?.nope();
               },
               child: Text("Nope")),
           ElevatedButton(
               onPressed: () {
-                _matchEngine.currentItem?.superLike();
+                _matchEngine?.currentItem?.superLike();
               },
               child: Text("Superlike")),
           ElevatedButton(
               onPressed: () {
-                _matchEngine.currentItem?.like();
+                _matchEngine?.currentItem?.like();
               },
               child: Text("Like"))
         ],

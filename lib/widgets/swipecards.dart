@@ -14,6 +14,8 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
   List<MealClass>? data;
   List<String> images = [];
 
+  int currentIndex = 0;
+
   void loadData() async {
 
     data = await loadSwipeCardContent();
@@ -27,6 +29,7 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
             // ));
             print("Liked ${data![i].name}");
             print("Liked ${i}");
+            likedMeal.add(data![i]);
             currentIndex = i + 1;
           },
           nopeAction: () {
@@ -35,6 +38,7 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
             //   duration: Duration(milliseconds: 500),
             // ));
             print("Nope ${data![i].name}");
+            dislikedMeal.add(data![i]);
             currentIndex = i + 1;
           },
           superlikeAction: () {

@@ -1,5 +1,7 @@
 part of 'services.dart';
 
+List<MealClass> likedMeal = [];
+List<MealClass> dislikedMeal = [];
 
 Future<List<MealClass>> loadSwipeCardContent() async {
   QuerySnapshot<Map<String, dynamic>> data = await FirebaseFirestore.instance.collection("foods").get();
@@ -13,4 +15,3 @@ Future<List<MealClass>> loadSwipeCardContent() async {
   return meals;
 }
 
-int currentIndex = 0;

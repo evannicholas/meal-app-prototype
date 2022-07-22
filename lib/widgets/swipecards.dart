@@ -11,42 +11,31 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
   List<SwipeItem> _swipeItems = <SwipeItem>[];
   MatchEngine? _matchEngine;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  List<String> _names = ["Red", "Blue", "Green", "Yellow", "Orange"];
-  List<Color> _colors = [
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.yellow,
-    Colors.orange,
-    Colors.orange,
-    Colors.orange,
-    Colors.orange,
-    Colors.orange,
-    Colors.orange,
-    Colors.orange,
-    Colors.orange,
-  ];
   List<MealClass>? data;
+  List<String> images = [];
 
   void loadData() async {
 
     data = await loadSwipeCardContent();
-    for (int i = 0; i < data!.length - 1; i++) {
+    for (int i = currentIndex; i < data!.length - 1; i++) {
       _swipeItems.add(SwipeItem(
-          content: Content(text: data![i].name, color: _colors[i]),
+          content: Content(text: data![i].name),
           likeAction: () {
             // _scaffoldKey.currentState?.showSnackBar(SnackBar(
             //   content: Text("Liked ${_names[i]}"),
             //   duration: Duration(milliseconds: 500),
             // ));
             print("Liked ${data![i].name}");
+            print("Liked ${i}");
+            currentIndex = i + 1;
           },
           nopeAction: () {
             // _scaffoldKey.currentState?.showSnackBar(SnackBar(
-            //   content: Text("Nope ${_names[i]}"),
+            //   content: Text("Nope ${_namesR[i]}"),
             //   duration: Duration(milliseconds: 500),
             // ));
             print("Nope ${data![i].name}");
+            currentIndex = i + 1;
           },
           superlikeAction: () {
             // _scaffoldKey.currentState?.showSnackBar(SnackBar(
@@ -54,15 +43,18 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
             //   duration: Duration(milliseconds: 500),
             // ));
             print("Superliked ${data![i].name}");
+            currentIndex = i + 1;
           },
           onSlideUpdate: (SlideRegion? region) async {
             // print("Region $region");
           }));
       print("CARD ADDED");
+      images.add(data![i].imageUrl);
+      
     }
     setState((){});// refresh
     
-    _matchEngine =await MatchEngine(swipeItems: _swipeItems);
+    _matchEngine = MatchEngine(swipeItems: _swipeItems);
     print(_matchEngine);
   }
 
@@ -81,11 +73,20 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
           matchEngine: _matchEngine!,
           itemBuilder: (BuildContext context, int index) {
             return Container(
-              alignment: Alignment.center,
-              color: _swipeItems[index].content.color,
+              alignment: Alignment.bottomLeft,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(images[index]),
+                  fit: BoxFit.cover),
+                  borderRadius: BorderRadius.circular(10),
+              ),
               child: Text(
                 _swipeItems[index].content.text,
-                style: TextStyle(fontSize: 100),
+                style: TextStyle(
+                  fontSize: 32,
+                  color: Colors.white,
+                ),
+
               ),
             );
           },

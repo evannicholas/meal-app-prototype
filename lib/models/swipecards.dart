@@ -2,7 +2,6 @@
   
   class Content {
     final String text;
-    final Color color;
 
-    Content({required this.text, required this.color});
+    Content({required this.text});
   }

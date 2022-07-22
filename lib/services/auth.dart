@@ -2,7 +2,6 @@ part of 'services.dart';
 
 UserModel? currentUser;
 
-
 Future<bool> loginAuth(String email, String password) async {
   bool result = false;
   try {
@@ -18,40 +17,48 @@ Future<bool> loginAuth(String email, String password) async {
     }
   }
   return result;
-
 }
 
-Future<void> signUp(String name, String email, String password) async{
-  UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+Future<void> signUp(String name, String email, String password) async {
+  UserCredential userCredential = await FirebaseAuth.instance
+      .createUserWithEmailAndPassword(email: email, password: password);
   //Insert user to firestore
-  await FirebaseFirestore.instance.collection("users")
-    .doc(userCredential.user!.uid)
-    .set({
-      'name': name,
-      'likes': [],
-      'dislikes': []
-    })
-    .onError((e, _) => print("Error writing document: $e"));
-  
+  await FirebaseFirestore.instance
+      .collection("users")
+      .doc(userCredential.user!.uid)
+      .set({'name': name, 'likes': [], 'dislikes': []}).onError(
+          (e, _) => print("Error writing document: $e"));
 }
 
-Future<void> autoLogin(User user) async{
-   DocumentSnapshot doc = await FirebaseFirestore.instance.collection("users").doc(user.uid).get();
-   final data = doc.data() as Map<String, dynamic>;
+Future<void> autoLogin(User user) async {
+  DocumentSnapshot doc =
+      await FirebaseFirestore.instance.collection("users").doc(user.uid).get();
+  final data = doc.data() as Map<String, dynamic>;
   // Map <String, dynamic> data = jsonEncode(doc.data());
-   var likes = (data['likes'] as List).map((x)=> x as String).toList();
-   var dislikes = (data['dislikes'] as List).map((x)=> x as String).toList();
-   print("============================");
+  var likes = (data['likes'] as List).map((x) => x as String).toList();
+  var dislikes = (data['dislikes'] as List).map((x) => x as String).toList();
+  print("============================");
   //  print(likes);
   //  print(user.uid);
   //  print(data['name']);
   //  print(data['likes'] == likes);
   //  print(data['dislikes'].toString() == dislikes);
-   print("============================");
-   currentUser = UserModel(user.uid, data['name'], user.email!, likes, dislikes);
+  print("============================");
+  currentUser = UserModel(user.uid, data['name'], user.email!, likes, dislikes);
 }
 
-
+Future<void> reloadUserData() async {
+  DocumentSnapshot doc = await FirebaseFirestore.instance
+      .collection("users")
+      .doc(currentUser!.id)
+      .get();
+  final data = doc.data() as Map<String, dynamic>;
+  // Map <String, dynamic> data = jsonEncode(doc.data());
+  var likes = (data['likes'] as List).map((x) => x as String).toList();
+  var dislikes = (data['dislikes'] as List).map((x) => x as String).toList();
+  currentUser = UserModel(
+      currentUser!.id, data['name'], currentUser!.email, likes, dislikes);
+}
 
 
 

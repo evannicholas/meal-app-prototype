@@ -15,9 +15,11 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
   List<String> images = [];
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   bool isloading = false;
+  late MealClass currentMeal;
   void loadData() async {
     isloading = true;
     data = await loadSwipeCardContent();
+    currentMeal= data![0];
     for (int i = currentIndex; i < data!.length - 1; i++) {
       _swipeItems.add(SwipeItem(
           content: Content(text: data![i].name),
@@ -84,39 +86,46 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
             Container(
                 height: 550,
                 child: _matchEngine != null
-                    ? SwipeCards(
-                        matchEngine: _matchEngine!,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            alignment: Alignment.bottomLeft,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: NetworkImage(images[index]),
-                                  fit: BoxFit.cover),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              _swipeItems[index].content.text,
-                              style: TextStyle(
-                                fontSize: 32,
-                                color: Colors.white,
+                    ? GestureDetector(
+                      onTap: (){
+                        print("Next page");
+                        Navigator.pushNamed(context,'/meal_details', arguments:currentMeal);
+                      },
+                      child: SwipeCards(
+                          matchEngine: _matchEngine!,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              alignment: Alignment.bottomLeft,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(images[index]),
+                                    fit: BoxFit.cover),
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                            ),
-                          );
-                        },
-                        onStackFinished: () {
-                          // _scaffoldKey.currentState.showSnackBar(SnackBar(
-                          //   content: Text("Stack Finished"),
-                          //   duration: Duration(milliseconds: 500),
-                          // ));
-                          print("Stack finish");
-                        },
-                        itemChanged: (SwipeItem item, int index) {
-                          print("item: ${item.content.text}, index: $index");
-                        },
-                        upSwipeAllowed: true,
-                        fillSpace: true,
-                      )
+                              child: Text(
+                                _swipeItems[index].content.text,
+                                style: TextStyle(
+                                  fontSize: 32,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            );
+                          },
+                          onStackFinished: () {
+                            // _scaffoldKey.currentState.showSnackBar(SnackBar(
+                            //   content: Text("Stack Finished"),
+                            //   duration: Duration(milliseconds: 500),
+                            // ));
+                            print("Stack finish");
+                          },
+                          itemChanged: (SwipeItem item, int index) {
+                            print("item: ${item.content.text}, index: $index");
+                            currentMeal = data![index];
+                          },
+                          upSwipeAllowed: true,
+                          fillSpace: true,
+                        ),
+                    )
                     : SizedBox()),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -7,7 +7,16 @@ Future<bool> loginAuth(String email, String password) async {
   try {
     final credential = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
-    // currentUser = UserModel(credential.user!.uid, name, email, likes, dislikes);
+    DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(credential.user!.uid)
+        .get();
+    final data = doc.data() as Map<String, dynamic>;
+    // Map <String, dynamic> data = jsonEncode(doc.data());
+    var likes = (data['likes'] as List).map((x) => x as String).toList();
+    var dislikes = (data['dislikes'] as List).map((x) => x as String).toList();
+    currentUser =
+        UserModel(credential.user!.uid, data['name'], credential.user!.email!, likes, dislikes);
     result = true;
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {

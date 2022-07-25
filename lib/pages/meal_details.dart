@@ -18,6 +18,15 @@ class _MealDetailsState extends State<MealDetails> {
 
     return Scaffold(
       appBar: AppBar(title: Text(args.name)),
+      body: Container(
+        decoration: BoxDecoration(
+        image:DecorationImage(
+          image: NetworkImage(args.imageUrl),
+          ),
+        ),
+      ),
+
+      
     );
   }
 } 

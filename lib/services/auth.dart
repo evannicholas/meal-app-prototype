@@ -65,8 +65,7 @@ Future<void> reloadUserData() async {
   // Map <String, dynamic> data = jsonEncode(doc.data());
   var likes = (data['likes'] as List).map((x) => x as String).toList();
   var dislikes = (data['dislikes'] as List).map((x) => x as String).toList();
-  currentUser = UserModel(
-      currentUser!.id, data['name'], currentUser!.email, likes, dislikes);
+  currentUser = UserModel(currentUser!.id, data['name'], currentUser!.email, likes, dislikes);
 }
 
 

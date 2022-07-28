@@ -49,17 +49,17 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
             dislikedMeal.add(data![i]);
             currentIndex = i + 1;
           },
-          superlikeAction: () {
-            // _scaffoldKey.currentState?.showSnackBar(SnackBar(
-            //   content: Text("Superliked ${_names[i]}"),
-            //   duration: Duration(milliseconds: 500),
-            // ));
-            firestore.collection('users').doc(currentUser!.id).update({
-              "likes": FieldValue.arrayUnion([data![i].id]),
-            });
-            print("Superliked ${data![i].name}");
-            currentIndex = i + 1;
-          },
+          // superlikeAction: () {
+          //   // _scaffoldKey.currentState?.showSnackBar(SnackBar(
+          //   //   content: Text("Superliked ${_names[i]}"),
+          //   //   duration: Duration(milliseconds: 500),
+          //   // ));
+          //   firestore.collection('users').doc(currentUser!.id).update({
+          //     "likes": FieldValue.arrayUnion([data![i].id]),
+          //   });
+          //   print("Superliked ${data![i].name}");
+          //   currentIndex = i + 1;
+          // },
           onSlideUpdate: (SlideRegion? region) async {
             // print("Region $region");
           }));
@@ -114,7 +114,7 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
                                     color: Colors.white,
                                   ),
                                 ),
-                              );
+                              ) ;
                             },
                             onStackFinished: () {
                               // _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -124,11 +124,10 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
                               print("Stack finish");
                             },
                             itemChanged: (SwipeItem item, int index) {
-                              print(
-                                  "item: ${item.content.text}, index: $index");
+                              print("item: ${item.content.text}, index: $index");
                               currentMeal = data![index];
                             },
-                            upSwipeAllowed: true,
+                            upSwipeAllowed: false,
                             fillSpace: true,
                           ),
                         )
@@ -142,11 +141,11 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
                       _matchEngine!.currentItem?.nope();
                     },
                     child: Text("Nope")),
-                ElevatedButton(
-                    onPressed: () {
-                      _matchEngine!.currentItem?.superLike();
-                    },
-                    child: Text("Superlike")),
+                // ElevatedButton(
+                //     onPressed: () {
+                //       _matchEngine!.currentItem?.superLike();
+                //     },
+                //     child: Text("Superlike")),
                 ElevatedButton(
                     onPressed: () {
                       _matchEngine!.currentItem?.like();

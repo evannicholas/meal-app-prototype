@@ -8,3 +8,4 @@ import '../models/models.dart';
 import '../services/services.dart';
 
 part 'swipecards.dart';
+part 'favorite.dart';

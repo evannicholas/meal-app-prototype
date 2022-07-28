@@ -9,5 +9,6 @@ import '../models/models.dart';
 
 part 'auth.dart';
 part 'swipecards.dart';
+part 'favorite.dart';
 
 

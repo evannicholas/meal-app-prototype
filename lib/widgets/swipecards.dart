@@ -112,9 +112,16 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
                                   style: TextStyle(
                                     fontSize: 32,
                                     color: Colors.white,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(0.0, 0.0),
+                                        blurRadius: 10.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ) ;
+                              );
                             },
                             onStackFinished: () {
                               // _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -124,7 +131,8 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
                               print("Stack finish");
                             },
                             itemChanged: (SwipeItem item, int index) {
-                              print("item: ${item.content.text}, index: $index");
+                              print(
+                                  "item: ${item.content.text}, index: $index");
                               currentMeal = data![index];
                             },
                             upSwipeAllowed: false,

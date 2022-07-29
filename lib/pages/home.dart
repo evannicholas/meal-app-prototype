@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
       case 1:
         {
           print("fav");
-          return Text("Favorite");
+          return FavoriteWidget();
         }
         break;
 

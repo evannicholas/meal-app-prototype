@@ -14,10 +14,10 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
   List<String> images = [];
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  bool isloading = false;
+  bool isLoading = false;
   late MealClass currentMeal;
   void loadData() async {
-    isloading = true;
+    isLoading = true;
     data = await loadSwipeCardContent();
     currentMeal = data![0];
     for (int i = currentIndex; i < data!.length - 1; i++) {
@@ -70,7 +70,7 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
 
     _matchEngine = MatchEngine(swipeItems: _swipeItems);
     print(_matchEngine);
-    isloading = false;
+    isLoading = false;
   }
 
   @override
@@ -81,7 +81,7 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return (!isloading)
+    return (!isLoading && _swipeItems.length > 0)
         ? Column(children: [
             Expanded(
                 child: LayoutBuilder(

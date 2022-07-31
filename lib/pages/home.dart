@@ -46,17 +46,18 @@ class _HomePageState extends State<HomePage> {
 
       default:
         {
-          return Column(
-            children: [
-              ElevatedButton(
-                child: Text('logout'),
-                onPressed: () async {
-                  await FirebaseAuth.instance.signOut();
-                  Navigator.pushReplacementNamed(context, "/login");
-                },
-              )
-            ],
-          );
+          return ProfileWidget();
+          // Column(
+          //   children: [
+          //     ElevatedButton(
+          //       child: Text('logout'),
+          //       onPressed: () async {
+          //         await FirebaseAuth.instance.signOut();
+          //         Navigator.pushReplacementNamed(context, "/login");
+          //       },
+          //     )
+          //   ],
+          // );
         }
         break;
     }

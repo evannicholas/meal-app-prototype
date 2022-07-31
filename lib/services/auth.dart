@@ -15,8 +15,8 @@ Future<bool> loginAuth(String email, String password) async {
     // Map <String, dynamic> data = jsonEncode(doc.data());
     var likes = (data['likes'] as List).map((x) => x as String).toList();
     var dislikes = (data['dislikes'] as List).map((x) => x as String).toList();
-    currentUser =
-        UserModel(credential.user!.uid, data['name'], credential.user!.email!, likes, dislikes);
+    currentUser = UserModel(credential.user!.uid, data['name'],
+        credential.user!.email!, likes, dislikes);
     result = true;
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
@@ -65,7 +65,12 @@ Future<void> reloadUserData() async {
   // Map <String, dynamic> data = jsonEncode(doc.data());
   var likes = (data['likes'] as List).map((x) => x as String).toList();
   var dislikes = (data['dislikes'] as List).map((x) => x as String).toList();
-  currentUser = UserModel(currentUser!.id, data['name'], currentUser!.email, likes, dislikes);
+  currentUser = UserModel(
+      currentUser!.id, data['name'], currentUser!.email, likes, dislikes);
+}
+
+Future getCurrentUser() async {
+  return currentUser;
 }
 
 

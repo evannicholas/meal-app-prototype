@@ -98,6 +98,7 @@ class _HomePageState extends State<HomePage> {
 
 Widget searchBarUI() {
   return FloatingSearchBar(
+    onSubmitted: (query) => print(query),
     margins: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
     hint: 'Nasi Goreng',
     openAxisAlignment: 0.0,

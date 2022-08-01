@@ -10,7 +10,6 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
   List<SwipeItem> _swipeItems = <SwipeItem>[];
   MatchEngine? _matchEngine;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  List<MealClass>? data;
   List<String> images = [];
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -18,23 +17,23 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
   late MealClass currentMeal;
   void loadData() async {
     isLoading = true;
-    data = await loadSwipeCardContent();
-    currentMeal = data![0];
-    for (int i = currentIndex; i < data!.length - 1; i++) {
+    await loadSwipeCardContent();
+    currentMeal = allMeal[0];
+    for (int i = currentIndex; i < allMeal.length - 1; i++) {
       _swipeItems.add(SwipeItem(
-          content: Content(text: data![i].name),
+          content: Content(text: allMeal[i].name),
           likeAction: () {
             // _scaffoldKey.currentState?.showSnackBar(SnackBar(
             //   content: Text("Liked ${_names[i]}"),
             //   duration: Duration(milliseconds: 500),
             // ));
-            print("Liked ${data![i].name}");
-            print("Liked ${i}");
+            // print("Liked ${allMeal![i].name}");
+            // print("Liked ${i}");
             firestore.collection('users').doc(currentUser!.id).update({
-              "likes": FieldValue.arrayUnion([data![i].id]),
+              "likes": FieldValue.arrayUnion([allMeal[i].id]),
             });
 
-            likedMeal.add(data![i]);
+            likedMeal.add(allMeal[i]);
             currentIndex = i + 1;
           },
           nopeAction: () {
@@ -42,11 +41,11 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
             //   content: Text("Nope ${_namesR[i]}"),
             //   duration: Duration(milliseconds: 500),
             // ));
-            print("Nope ${data![i].name}");
+            print("Nope ${allMeal[i].name}");
             firestore.collection('users').doc(currentUser!.id).update({
-              "dislikes": FieldValue.arrayUnion([data![i].id]),
+              "dislikes": FieldValue.arrayUnion([allMeal[i].id]),
             });
-            dislikedMeal.add(data![i]);
+            dislikedMeal.add(allMeal[i]);
             currentIndex = i + 1;
           },
           // superlikeAction: () {
@@ -64,7 +63,7 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
             // print("Region $region");
           }));
       print("CARD ADDED");
-      images.add(data![i].imageUrl);
+      images.add(allMeal[i].imageUrl);
     }
     setState(() {}); // refresh
 
@@ -133,7 +132,7 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
                             itemChanged: (SwipeItem item, int index) {
                               print(
                                   "item: ${item.content.text}, index: $index");
-                              currentMeal = data![index];
+                              currentMeal = allMeal![index];
                             },
                             upSwipeAllowed: false,
                             fillSpace: true,

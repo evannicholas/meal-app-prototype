@@ -58,28 +58,33 @@ class _FavoriteMealCardState extends State<FavoriteMealCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Container(
-        alignment: Alignment.bottomLeft,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-              image: NetworkImage(widget.mealData.imageUrl), fit: BoxFit.cover),
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(10.0),
-            bottomRight: Radius.circular(10.0),
+      child: GestureDetector(
+        onTap: (){
+          Navigator.pushNamed(context, '/meal_details', arguments: widget.mealData);
+        },
+        child: Container(
+          alignment: Alignment.bottomLeft,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: NetworkImage(widget.mealData.imageUrl), fit: BoxFit.cover),
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(10.0),
+              bottomRight: Radius.circular(10.0),
+            ),
           ),
-        ),
-        child: Text(
-          widget.mealData.name,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.white,
-            shadows: <Shadow>[
-              Shadow(
-                offset: Offset(0.0, 0.0),
-                blurRadius: 10.0,
-                color: Color.fromARGB(255, 0, 0, 0),
-              ),
-            ],
+          child: Text(
+            widget.mealData.name,
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+              shadows: <Shadow>[
+                Shadow(
+                  offset: Offset(0.0, 0.0),
+                  blurRadius: 10.0,
+                  color: Color.fromARGB(255, 0, 0, 0),
+                ),
+              ],
+            ),
           ),
         ),
       ),

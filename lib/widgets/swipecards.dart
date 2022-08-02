@@ -18,7 +18,8 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
   void loadData() async {
     isLoading = true;
     await loadSwipeCardContent();
-    currentMeal = allMeal[0];
+    currentIndex = 0;
+    currentMeal = allMeal[currentIndex];
     for (int i = currentIndex; i < allMeal.length - 1; i++) {
       _swipeItems.add(SwipeItem(
           content: Content(text: allMeal[i].name),

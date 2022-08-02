@@ -18,3 +18,4 @@ Future<List<MealClass>> loadFavoriteContents() async {
 
   return favorites;
 }
+

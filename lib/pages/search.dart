@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 part of 'pages.dart';
 
 class SearchPage extends StatefulWidget {
@@ -41,7 +43,8 @@ class _SearchPageState extends State<SearchPage> {
                 centerTitle: false,
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back),
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () =>
+                      Navigator.pushReplacementNamed(context, "/home"),
                 ),
                 title: Text('Search result of ' + query),
                 bottom: AppBar(
@@ -69,7 +72,12 @@ class _SearchPageState extends State<SearchPage> {
                 delegate: SliverChildListDelegate([
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ItemCarousel(listOption: searchResult),
+                    child: searchResult.isNotEmpty
+                        ? ItemCarousel(listOption: searchResult)
+                        : Container(
+                            height: 170,
+                            child: Text('No item found'),
+                          ),
                   ),
                   Divider(
                     height: 7,

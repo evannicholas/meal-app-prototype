@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Widget getHomeWidget() {
+  Widget getHomeWidget(BuildContext context) {
     switch (_selectedIndex) {
       case 0:
         {
@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
             fit: StackFit.expand,
             children: [
               SwipeCardsWidget(),
-              searchBarUI(),
+              searchBarUI(context),
             ],
           );
         }
@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(title: Text("Home")),
-      body: getHomeWidget(),
+      body: getHomeWidget(context),
       bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -96,9 +96,9 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-Widget searchBarUI() {
+Widget searchBarUI(BuildContext context) {
   return FloatingSearchBar(
-    onSubmitted: (query) => print(query),
+    onSubmitted: (query) => Navigator.pushNamed(context, '/search', arguments: query),
     margins: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
     hint: 'Nasi Goreng',
     openAxisAlignment: 0.0,

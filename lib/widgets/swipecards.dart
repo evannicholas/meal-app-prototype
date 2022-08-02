@@ -27,14 +27,16 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
             //   content: Text("Liked ${_names[i]}"),
             //   duration: Duration(milliseconds: 500),
             // ));
-            // print("Liked ${allMeal![i].name}");
-            // print("Liked ${i}");
+            print("before");
+            print(currentUser!.likes.length);
             firestore.collection('users').doc(currentUser!.id).update({
               "likes": FieldValue.arrayUnion([allMeal[i].id]),
             });
-
             likedMeal.add(allMeal[i]);
             currentIndex = i + 1;
+            reloadUserData();
+            print("after");
+            print(currentUser!.likes.length);
           },
           nopeAction: () {
             // _scaffoldKey.currentState?.showSnackBar(SnackBar(
@@ -47,6 +49,7 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
             });
             dislikedMeal.add(allMeal[i]);
             currentIndex = i + 1;
+            reloadUserData();
           },
           // superlikeAction: () {
           //   // _scaffoldKey.currentState?.showSnackBar(SnackBar(
@@ -132,6 +135,7 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
                             itemChanged: (SwipeItem item, int index) {
                               print(
                                   "item: ${item.content.text}, index: $index");
+                              print(currentUser!.likes.length);
                               currentMeal = allMeal![index];
                             },
                             upSwipeAllowed: false,

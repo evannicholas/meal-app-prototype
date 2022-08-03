@@ -106,8 +106,9 @@ class ProfileWidgetState extends State<ProfileWidget> {
           width: 128,
           height: 128,
           child: InkWell(
-            onTap: () => Navigator.of(_context)
-                .push(MaterialPageRoute(builder: (context) => EditProfile())),
+            onTap: () {
+              Navigator.pushNamed(context ,'/edit_profile');
+            }
           ),
         ),
       ),

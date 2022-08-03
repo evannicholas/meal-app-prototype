@@ -38,6 +38,13 @@ void searchEngine(String query) {
   reloadUserData();
 }
 
+void clearHistory() {
+  firestore
+      .collection('users')
+      .doc(currentUser!.id)
+      .update({"history": FieldValue.arrayRemove(currentUser!.history)});
+  reloadUserData();
+}
 // Future<List<MealClass>> loadSearchHistory() async {
 //   await reloadUserData();
 

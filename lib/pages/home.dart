@@ -149,19 +149,31 @@ Widget searchBarUI(BuildContext context) {
               height: 200.0,
               color: Colors.white,
               child: currentUser!.history.isNotEmpty
-                  ? new ListView(
-                      scrollDirection: Axis.vertical,
-                      children: new List.generate(
-                          getlength(),
-                          (index) => new ListTile(
-                              title: Text(currentUser!.history.elementAt(
-                                  currentUser!.history.length - index - 1)),
-                              onTap: () => Navigator.pushReplacementNamed(
-                                  context, '/search',
-                                  arguments: currentUser!.history.elementAt(
-                                      currentUser!.history.length -
-                                          index -
-                                          1)))),
+                  ? Stack(
+                      children: [
+                        new ListView(
+                          scrollDirection: Axis.vertical,
+                          children: new List.generate(
+                              getlength(),
+                              (index) => new ListTile(
+                                  title: Text(currentUser!.history.elementAt(
+                                      currentUser!.history.length - index - 1)),
+                                  onTap: () => Navigator.pushReplacementNamed(
+                                      context, '/search',
+                                      arguments: currentUser!.history.elementAt(
+                                          currentUser!.history.length -
+                                              index -
+                                              1)))),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 7),
+                          child: Align(
+                              alignment: Alignment.topRight,
+                              child: TextButton(
+                                  onPressed: () => {clearHistory()},
+                                  child: Text('Clear History'))),
+                        )
+                      ],
                     )
                   : ListTile(
                       title: Text('no search History'),

@@ -35,6 +35,7 @@ void searchEngine(String query) {
       }
     }
   }
+  reloadUserData();
 }
 
 // Future<List<MealClass>> loadSearchHistory() async {

@@ -100,8 +100,10 @@ class _HomePageState extends State<HomePage> {
 
 Widget searchBarUI(BuildContext context) {
   return FloatingSearchBar(
-    onSubmitted: (query) =>
+    onSubmitted: (query) =>{
         Navigator.pushReplacementNamed(context, '/search', arguments: query),
+        
+        },
     margins: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
     hint: 'Nasi Goreng',
     openAxisAlignment: 0.0,
@@ -145,15 +147,14 @@ Widget searchBarUI(BuildContext context) {
                       children: new List.generate(
                           currentUser!.history.length,
                           (index) => new ListTile(
-                                title: Text(currentUser!.history.elementAt(
-                                    currentUser!.history.length - index - 1)),
-                                onTap: () => Navigator.pushReplacementNamed(
-                                    context, '/search',
-                                    arguments: currentUser!.history.elementAt(
-                                        currentUser!.history.length -
-                                            index -
-                                            1)),
-                              )),
+                              title: Text(currentUser!.history.elementAt(
+                                  currentUser!.history.length - index - 1)),
+                              onTap: () => Navigator.pushReplacementNamed(
+                                  context, '/search',
+                                  arguments: currentUser!.history.elementAt(
+                                      currentUser!.history.length -
+                                          index -
+                                          1)))),
                     )
                   : ListTile(
                       title: Text('no search History'),

@@ -28,13 +28,14 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
             //   content: Text("Liked ${_names[i]}"),
             //   duration: Duration(milliseconds: 500),
             // ));
+            currentIndex = i + 1;
             print("before");
             print(currentUser!.likes.length);
             firestore.collection('users').doc(currentUser!.id).update({
               "likes": FieldValue.arrayUnion([allMeal[i].id]),
             });
             likedMeal.add(allMeal[i]);
-            currentIndex = i + 1;
+
             reloadUserData();
             print("after");
             print(currentUser!.likes.length);
@@ -44,12 +45,13 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
             //   content: Text("Nope ${_namesR[i]}"),
             //   duration: Duration(milliseconds: 500),
             // ));
+            currentIndex = i + 1;
             print("Nope ${allMeal[i].name}");
             firestore.collection('users').doc(currentUser!.id).update({
               "dislikes": FieldValue.arrayUnion([allMeal[i].id]),
             });
             dislikedMeal.add(allMeal[i]);
-            currentIndex = i + 1;
+
             reloadUserData();
           },
           // superlikeAction: () {

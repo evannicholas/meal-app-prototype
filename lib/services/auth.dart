@@ -15,8 +15,9 @@ Future<bool> loginAuth(String email, String password) async {
     // Map <String, dynamic> data = jsonEncode(doc.data());
     var likes = (data['likes'] as List).map((x) => x as String).toList();
     var dislikes = (data['dislikes'] as List).map((x) => x as String).toList();
+    var history = (data['history'] as List).map((x) => x as String).toList();
     currentUser = UserModel(credential.user!.uid, data['name'],
-        credential.user!.email!, likes, dislikes);
+        credential.user!.email!, likes, dislikes, history);
     result = true;
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
@@ -46,6 +47,7 @@ Future<void> autoLogin(User user) async {
   // Map <String, dynamic> data = jsonEncode(doc.data());
   var likes = (data['likes'] as List).map((x) => x as String).toList();
   var dislikes = (data['dislikes'] as List).map((x) => x as String).toList();
+  var history = (data['history'] as List).map((x) => x as String).toList();
   print("============================");
   //  print(likes);
   //  print(user.uid);
@@ -53,7 +55,8 @@ Future<void> autoLogin(User user) async {
   //  print(data['likes'] == likes);
   //  print(data['dislikes'].toString() == dislikes);
   print("============================");
-  currentUser = UserModel(user.uid, data['name'], user.email!, likes, dislikes);
+  currentUser =
+      UserModel(user.uid, data['name'], user.email!, likes, dislikes, history);
 }
 
 Future<void> reloadUserData() async {
@@ -65,14 +68,24 @@ Future<void> reloadUserData() async {
   // Map <String, dynamic> data = jsonEncode(doc.data());
   var likes = (data['likes'] as List).map((x) => x as String).toList();
   var dislikes = (data['dislikes'] as List).map((x) => x as String).toList();
-  currentUser = UserModel(
-      currentUser!.id, data['name'], currentUser!.email, likes, dislikes);
+  var history = (data['history'] as List).map((x) => x as String).toList();
+  currentUser = UserModel(currentUser!.id, data['name'], currentUser!.email,
+      likes, dislikes, history);
 }
 
 Future getCurrentUser() async {
   return currentUser;
 }
 
+// Future<void> addUserHistory(String query) async {
+ 
+//   //Insert user to firestore
+//   await FirebaseFirestore.instance
+//       .collection("users")
+//       .doc(currentUser!.id)
+//       .set({'name': name, 'likes': [], 'dislikes': []}).onError(
+//           (e, _) => print("Error writing document: $e"));
+// }
 
 
 

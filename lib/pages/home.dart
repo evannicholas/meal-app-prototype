@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_new
+
 part of 'pages.dart';
 
 class HomePage extends StatefulWidget {
@@ -98,7 +100,8 @@ class _HomePageState extends State<HomePage> {
 
 Widget searchBarUI(BuildContext context) {
   return FloatingSearchBar(
-    onSubmitted: (query) => Navigator.pushNamed(context, '/search', arguments: query),
+    onSubmitted: (query) =>
+        Navigator.pushReplacementNamed(context, '/search', arguments: query),
     margins: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
     hint: 'Nasi Goreng',
     openAxisAlignment: 0.0,
@@ -128,22 +131,33 @@ Widget searchBarUI(BuildContext context) {
       ),
     ],
     builder: (context, transition) {
+      var controller;
       return ClipRRect(
         borderRadius: BorderRadius.circular(8.0),
         child: Material(
           color: Colors.white,
           child: Container(
-            height: 200.0,
-            color: Colors.white,
-            child: Column(
-              children: [
-                ListTile(
-                  title: Text('History'),
-                  subtitle: Text('User History'),
-                ),
-              ],
-            ),
-          ),
+              height: 200.0,
+              color: Colors.white,
+              child: currentUser!.history.isNotEmpty
+                  ? new ListView(
+                      scrollDirection: Axis.vertical,
+                      children: new List.generate(
+                          currentUser!.history.length,
+                          (index) => new ListTile(
+                                title: Text(currentUser!.history.elementAt(
+                                    currentUser!.history.length - index - 1)),
+                                onTap: () => Navigator.pushReplacementNamed(
+                                    context, '/search',
+                                    arguments: currentUser!.history.elementAt(
+                                        currentUser!.history.length -
+                                            index -
+                                            1)),
+                              )),
+                    )
+                  : ListTile(
+                      title: Text('no search History'),
+                    )),
         ),
       );
     },

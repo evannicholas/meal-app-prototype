@@ -100,10 +100,9 @@ class _HomePageState extends State<HomePage> {
 
 Widget searchBarUI(BuildContext context) {
   return FloatingSearchBar(
-    onSubmitted: (query) =>{
-        Navigator.pushReplacementNamed(context, '/search', arguments: query),
-        
-        },
+    onSubmitted: (query) => {
+      Navigator.pushReplacementNamed(context, '/search', arguments: query),
+    },
     margins: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
     hint: 'Nasi Goreng',
     openAxisAlignment: 0.0,
@@ -134,6 +133,14 @@ Widget searchBarUI(BuildContext context) {
     ],
     builder: (context, transition) {
       var controller;
+      int getlength() {
+        if (currentUser!.history.length > 5) {
+          return 5;
+        } else {
+          return currentUser!.history.length;
+        }
+      }
+
       return ClipRRect(
         borderRadius: BorderRadius.circular(8.0),
         child: Material(
@@ -145,7 +152,7 @@ Widget searchBarUI(BuildContext context) {
                   ? new ListView(
                       scrollDirection: Axis.vertical,
                       children: new List.generate(
-                          currentUser!.history.length,
+                          getlength(),
                           (index) => new ListTile(
                               title: Text(currentUser!.history.elementAt(
                                   currentUser!.history.length - index - 1)),

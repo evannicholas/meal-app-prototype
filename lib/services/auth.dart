@@ -19,6 +19,7 @@ Future<bool> loginAuth(String email, String password) async {
     currentUser = UserModel(credential.user!.uid, data['name'],
         credential.user!.email!, likes, dislikes, history);
     result = true;
+    print(history.elementAt(0));
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
       print('No user found for that email.');
@@ -36,7 +37,7 @@ Future<void> signUp(String name, String email, String password) async {
   await FirebaseFirestore.instance
       .collection("users")
       .doc(userCredential.user!.uid)
-      .set({'name': name, 'likes': [], 'dislikes': []}).onError(
+      .set({'name': name, 'likes': [], 'dislikes': [], 'history': []}).onError(
           (e, _) => print("Error writing document: $e"));
 }
 

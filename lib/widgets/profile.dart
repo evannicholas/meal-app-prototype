@@ -90,6 +90,20 @@ class ProfileWidgetState extends State<ProfileWidget> {
         Padding(padding: EdgeInsets.all(16.0), child: Text("Likes: $_like")),
         Padding(
             padding: EdgeInsets.all(16.0), child: Text("Dislikes: $_dislike")),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ElevatedButton(
+              child: Text("Log Out"),
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromARGB(255, 6, 65, 167),
+                shape: const BeveledRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5))),
+              ),
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushReplacementNamed(context, "/login");
+              }),
+        )
       ],
     );
   }
@@ -105,11 +119,9 @@ class ProfileWidgetState extends State<ProfileWidget> {
           fit: BoxFit.cover,
           width: 128,
           height: 128,
-          child: InkWell(
-            onTap: () {
-              Navigator.pushNamed(context ,'/edit_profile');
-            }
-          ),
+          child: InkWell(onTap: () {
+            Navigator.pushNamed(context, '/edit_profile');
+          }),
         ),
       ),
     );

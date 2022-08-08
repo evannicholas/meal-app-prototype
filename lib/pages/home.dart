@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_new
+// ignore_for_file: unnecessary_new, prefer_const_constructors, sort_child_properties_last
 
 part of 'pages.dart';
 
@@ -26,6 +26,27 @@ class _HomePageState extends State<HomePage> {
             fit: StackFit.expand,
             children: [
               SwipeCardsWidget(),
+              // Row(
+              //     children: [
+              //       ElevatedButton(
+              //           onPressed: () {},
+              //           child: Icon(Icons.close, color: Colors.white),
+              //           style: ElevatedButton.styleFrom(
+              //             shape: CircleBorder(),
+              //             padding: EdgeInsets.all(20), // <-- Button color
+              //             onPrimary: Colors.red, // <-- Splash color
+              //           )),
+              //       ElevatedButton(
+              //           onPressed: () {},
+              //           child: Icon(Icons.favorite, color: Colors.white),
+              //           style: ElevatedButton.styleFrom(
+              //             shape: CircleBorder(),
+              //             padding: EdgeInsets.all(20), // <-- Button color
+              //             onPrimary: Colors.red, // <-- Splash color
+              //           )),
+              //     ],
+              //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //     crossAxisAlignment: CrossAxisAlignment.center),
               SearchBar(),
             ],
           );
@@ -270,8 +291,8 @@ class _SearchBarState extends State<SearchBar> {
                                 child: TextButton(
                                     onPressed: () => {
                                           setState(() {
-                                            currentUser!.history.clear();
                                             clearHistory();
+                                            currentUser!.history.clear();
                                           })
                                         },
                                     child: Text('Clear History'))),

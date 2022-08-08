@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last
+
 part of 'widgets.dart';
 
 class SwipeCardsWidget extends StatefulWidget {
@@ -11,7 +13,7 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
   MatchEngine? _matchEngine;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   List<String> images = [];
-
+  late AnimationController controller;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   bool isLoading = false;
   late MealClass currentMeal;
@@ -82,6 +84,14 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
   void initState() {
     loadData();
     super.initState();
+
+    // controller = AnimationController(
+    //   vsync: this,
+    //   duration: const Duration(seconds: 5),
+    // )..addListener(() {
+    //     setState(() {});
+    //   });
+    // controller.repeat(reverse: true);
   }
 
   @override
@@ -90,84 +100,148 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
         ? Column(children: [
             Expanded(
                 child: LayoutBuilder(
-              builder: (context, constraints) => Container(
-                  child: _matchEngine != null
-                      ? GestureDetector(
-                          onTap: () {
-                            print("Next page");
-                            Navigator.pushNamed(context, '/meal_details',
-                                arguments: currentMeal);
-                          },
-                          child: SwipeCards(
-                            matchEngine: _matchEngine!,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                alignment: Alignment.bottomLeft,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: NetworkImage(images[index]),
-                                      fit: BoxFit.cover),
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(30.0),
-                                    bottomRight: Radius.circular(30.0),
-                                  ),
+                    builder: (context, constraints) => Stack(
+                          children: [
+                            Container(
+                                child: _matchEngine != null
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          print("Next page");
+                                          Navigator.pushNamed(
+                                              context, '/meal_details',
+                                              arguments: currentMeal);
+                                        },
+                                        child: SwipeCards(
+                                          matchEngine: _matchEngine!,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return Container(
+                                              alignment: Alignment.bottomLeft,
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        images[index]),
+                                                    fit: BoxFit.cover),
+                                                borderRadius: BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(30.0),
+                                                  bottomRight:
+                                                      Radius.circular(30.0),
+                                                ),
+                                              ),
+                                              child: Text(
+                                                _swipeItems[index].content.text,
+                                                style: TextStyle(
+                                                  fontSize: 32,
+                                                  color: Colors.white,
+                                                  shadows: <Shadow>[
+                                                    Shadow(
+                                                      offset: Offset(0.0, 0.0),
+                                                      blurRadius: 10.0,
+                                                      color: Color.fromARGB(
+                                                          255, 0, 0, 0),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          onStackFinished: () {
+                                            // _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                            //   content: Text("Stack Finished"),
+                                            //   duration: Duration(milliseconds: 500),
+                                            // ));
+                                            print("Stack finish");
+                                          },
+                                          itemChanged:
+                                              (SwipeItem item, int index) {
+                                            print(
+                                                "item: ${item.content.text}, index: $index");
+                                            print(currentUser!.likes.length);
+                                            currentMeal = allMeal[index];
+                                          },
+                                          upSwipeAllowed: false,
+                                          fillSpace: true,
+                                        ),
+                                      )
+                                    : SizedBox()),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 15),
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Row(
+                                  children: [
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          _matchEngine!.currentItem?.nope();
+                                        },
+                                        child: Icon(Icons.close,
+                                            color: Colors.grey),
+                                        style: ElevatedButton.styleFrom(
+                                          primary:
+                                              Color.fromARGB(39, 255, 255, 255),
+                                          shape: CircleBorder(),
+                                          side: BorderSide(
+                                              width: 3.0, color: Colors.grey),
+                                          padding: EdgeInsets.all(
+                                              20), // <-- Button color
+                                          onPrimary: Color.fromARGB(255, 225,
+                                              225, 225), // <-- Splash color
+                                        )),
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          _matchEngine!.currentItem?.like();
+                                        },
+                                        child: Icon(Icons.favorite,
+                                            color: Colors.pink),
+                                        style: ElevatedButton.styleFrom(
+                                          primary:
+                                              Color.fromARGB(39, 255, 255, 255),
+                                          shape: CircleBorder(),
+                                          side: BorderSide(
+                                              width: 3.0, color: Colors.pink),
+                                          padding: EdgeInsets.all(
+                                              20), // <-- Button color
+                                          onPrimary: Color.fromARGB(255, 225,
+                                              225, 225), // <-- Splash color
+                                        )),
+                                  ],
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                 ),
-                                child: Text(
-                                  _swipeItems[index].content.text,
-                                  style: TextStyle(
-                                    fontSize: 32,
-                                    color: Colors.white,
-                                    shadows: <Shadow>[
-                                      Shadow(
-                                        offset: Offset(0.0, 0.0),
-                                        blurRadius: 10.0,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                            onStackFinished: () {
-                              // _scaffoldKey.currentState.showSnackBar(SnackBar(
-                              //   content: Text("Stack Finished"),
-                              //   duration: Duration(milliseconds: 500),
-                              // ));
-                              print("Stack finish");
-                            },
-                            itemChanged: (SwipeItem item, int index) {
-                              print(
-                                  "item: ${item.content.text}, index: $index");
-                              print(currentUser!.likes.length);
-                              currentMeal = allMeal![index];
-                            },
-                            upSwipeAllowed: false,
-                            fillSpace: true,
-                          ),
-                        )
-                      : SizedBox()),
-            )),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                    onPressed: () {
-                      _matchEngine!.currentItem?.nope();
-                    },
-                    child: Text("Nope")),
-                // ElevatedButton(
-                //     onPressed: () {
-                //       _matchEngine!.currentItem?.superLike();
-                //     },
-                //     child: Text("Superlike")),
-                ElevatedButton(
-                    onPressed: () {
-                      _matchEngine!.currentItem?.like();
-                    },
-                    child: Text("Like"))
-              ],
-            )
+                              ),
+                            ),
+                          ],
+                        ))),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //   children: [
+            //     ElevatedButton(
+            //         onPressed: () {
+            //           _matchEngine!.currentItem?.nope();
+            //         },
+            //         child: Text("Nope")),
+            //     // ElevatedButton(
+            //     //     onPressed: () {
+            //     //       _matchEngine!.currentItem?.superLike();
+            //     //     },
+            //     //     child: Text("Superlike")),
+            //     ElevatedButton(
+            //         onPressed: () {
+            //           _matchEngine!.currentItem?.like();
+            //         },
+            //         child: Text("Like"))
+            //   ],
+            // )
           ])
-        : Text("Loading");
+        : SizedBox(
+            height: 1,
+            width: 10,
+            child: Transform.scale(
+              scale: 0.1,
+              child: CircularProgressIndicator(
+                strokeWidth: 40,
+              ),
+            ));
   }
 }

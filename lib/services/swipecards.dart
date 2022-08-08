@@ -12,14 +12,21 @@ Future<void> loadSwipeCardContent() async {
 
   for (QueryDocumentSnapshot<Map<String, dynamic>> doc in data.docs) {
     var tags = (doc.data()['tags'] as List).map((x) => x as String).toList();
-    MealClass newMeal = MealClass(doc.id, doc.data()['image_url'],
-        doc.data()['name'], tags, doc.data()['detail']);
+    MealClass newMeal = MealClass(
+        doc.id,
+        doc.data()['image_url'],
+        doc.data()['name'],
+        tags,
+        doc.data()['detail'],
+        doc.data()['ingredients']);
+    // print(newMeal.ingredients);
     if (!currentUser!.likes.contains(newMeal.id) &&
         !currentUser!.dislikes.contains(newMeal.id)) {
       allMeal.add(newMeal);
     }
   }
   allMeal.shuffle();
+  // print(allMeal.length);
 }
 
 int currentIndex = 0;

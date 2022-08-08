@@ -22,7 +22,7 @@ class _SwipeCardsWidgetState extends State<SwipeCardsWidget> {
     await loadSwipeCardContent();
     currentIndex = 0;
     currentMeal = allMeal[currentIndex];
-    for (int i = currentIndex; i < allMeal.length - 1; i++) {
+    for (int i = currentIndex; i < allMeal.length; i++) {
       _swipeItems.add(SwipeItem(
           content: Content(text: allMeal[i].name),
           likeAction: () {

@@ -15,8 +15,10 @@ class _MealDetailsState extends State<MealDetails> {
     List<Widget> getIngredientWidgets() {
       List<Widget> ingredientWidgets = [];
       args.ingredients.forEach((key, value) {
+        print("========");
         print(key);
-        print(value[0]);
+        print(value);
+        print("========");
         IngredientWidget(keyTitle: key, value: value);
         ingredientWidgets.add(IngredientWidget(keyTitle: key, value: value));
       });
@@ -56,6 +58,33 @@ class IngredientWidget extends StatefulWidget {
 class _IngredientWidgetState extends State<IngredientWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(children: [
+      Text(
+        widget.keyTitle.toString(),
+        style: TextStyle(fontSize: 18),
+      ),
+      ListView.builder(
+        itemCount: widget.value.length,
+        itemBuilder: (context, index) => ListTile(
+          title: Text(
+            "\u2022 "+widget.value[index].toString(),
+            style: TextStyle(fontSize: 14),
+          ),
+          dense: true,
+          visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+        ),
+        
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+      ),
+    ]);
   }
 }
+// ListTile(
+//           title: Text(
+//             widget.keyTitle.toString(),
+//             style: TextStyle(
+//               fontSize:18
+//               ),),
+          
+//         )

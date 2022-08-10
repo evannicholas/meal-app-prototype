@@ -67,7 +67,7 @@ class _IngredientWidgetState extends State<IngredientWidget> {
         itemCount: widget.value.length,
         itemBuilder: (context, index) => ListTile(
           title: Text(
-            "\u2022 "+widget.value[index].toString(),
+            "\u2022 "+widget.value[index].toString().trim(),
             style: TextStyle(fontSize: 14),
           ),
           dense: true,

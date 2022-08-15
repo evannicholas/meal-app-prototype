@@ -12,3 +12,4 @@ part 'register.dart';
 part 'meal_details.dart';
 part 'edit_profile.dart';
 part 'search.dart';
+part 'shop_ingredients.dart';

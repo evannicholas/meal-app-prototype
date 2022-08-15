@@ -31,15 +31,16 @@ class _MealDetailsState extends State<MealDetails> {
       body: Column(
         children: [
           Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(args.imageUrl),
-              ),
-            ),
+            child: Image.network(args.imageUrl),
           ),
           Column(
             children: getIngredientWidgets(),
-          )
+          ),
+          ElevatedButton(
+            onPressed:(){
+              Navigator.pushNamed(context, "/shop_ingredients");
+            } , 
+            child: Text("Shop Ingredients"),)
         ],
       ),
     );

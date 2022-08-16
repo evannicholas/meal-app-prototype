@@ -28,27 +28,35 @@ class _MealDetailsState extends State<MealDetails> {
     // getIngredients();
     return Scaffold(
       appBar: AppBar(title: Text(args.name)),
-      body: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(args.imageUrl),
-                fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(args.imageUrl),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: SizedBox(height: 250,width: double.infinity,)
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+              child: Column(
+                children: getIngredientWidgets(),
               ),
             ),
-            child: SizedBox(height: 250,width: double.infinity,)
-          ),
-          Column(
-            children: getIngredientWidgets(),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, "/shop_ingredients");
-            },
-            child: Text("Shop Ingredients"),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 25),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/shop_ingredients");
+                },
+                child: Text("Shop Ingredients"),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -81,8 +89,9 @@ class _IngredientWidgetState extends State<IngredientWidget> {
           dense: true,
           visualDensity: VisualDensity(horizontal: 0, vertical: -4),
         ),
-        scrollDirection: Axis.vertical,
+        // scrollDirection: Axis.vertical,
         shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
       ),
     ]);
   }

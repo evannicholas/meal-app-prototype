@@ -31,16 +31,23 @@ class _MealDetailsState extends State<MealDetails> {
       body: Column(
         children: [
           Container(
-            child: Image.network(args.imageUrl),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(args.imageUrl),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: SizedBox(height: 250,width: double.infinity,)
           ),
           Column(
             children: getIngredientWidgets(),
           ),
           ElevatedButton(
-            onPressed:(){
+            onPressed: () {
               Navigator.pushNamed(context, "/shop_ingredients");
-            } , 
-            child: Text("Shop Ingredients"),)
+            },
+            child: Text("Shop Ingredients"),
+          )
         ],
       ),
     );
@@ -68,13 +75,12 @@ class _IngredientWidgetState extends State<IngredientWidget> {
         itemCount: widget.value.length,
         itemBuilder: (context, index) => ListTile(
           title: Text(
-            "\u2022 "+widget.value[index].toString().trim(),
+            "\u2022 " + widget.value[index].toString().trim(),
             style: TextStyle(fontSize: 14),
           ),
           dense: true,
           visualDensity: VisualDensity(horizontal: 0, vertical: -4),
         ),
-        
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
       ),

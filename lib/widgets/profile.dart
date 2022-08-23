@@ -7,7 +7,7 @@ class ProfileWidget extends StatefulWidget {
 
 class ProfileWidgetState extends State<ProfileWidget> {
   final String imageLink =
-      "https://blog.texasbar.com/files/2011/12/housto-bankruptcy-attorney-adam-schachter1.jpg";
+      "";
 
   var _context = null;
   var _like, _dislike = null;

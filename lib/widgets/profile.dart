@@ -6,7 +6,7 @@ class ProfileWidget extends StatefulWidget {
 }
 
 class ProfileWidgetState extends State<ProfileWidget> {
-  final String imageLink = "";
+  final String imageLink = "https://cdn-icons-png.flaticon.com/512/1946/1946429.png";
   final user = FirebaseAuth.instance.currentUser;
   var _context = null;
   var _like, _dislike, _name, _email = null;

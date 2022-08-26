@@ -153,7 +153,7 @@ class _EditProfileState extends State<EditProfile> {
 
   void _changeEmail(String email) async {
     final currentUser = await FirebaseAuth.instance.currentUser;
-
+    
     setState(() {
       currentUser!.updateEmail(email).then((_) {
         print("Successfully changed email");

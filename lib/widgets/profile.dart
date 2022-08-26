@@ -6,11 +6,10 @@ class ProfileWidget extends StatefulWidget {
 }
 
 class ProfileWidgetState extends State<ProfileWidget> {
-  final String imageLink =
-      "";
-
+  final String imageLink = "";
+  final user = FirebaseAuth.instance.currentUser;
   var _context = null;
-  var _like, _dislike = null;
+  var _like, _dislike, _name, _email = null;
 
   @override
   void initState() {
@@ -23,6 +22,8 @@ class ProfileWidgetState extends State<ProfileWidget> {
     setState(() {
       _like = currentUser!.likes.length;
       _dislike = currentUser!.dislikes.length;
+      _name = currentUser!.name;
+      _email = currentUser!.email;
     });
   }
 
@@ -83,10 +84,10 @@ class ProfileWidgetState extends State<ProfileWidget> {
       children: <Widget>[
         Padding(
             padding: EdgeInsets.all(16.0),
-            child: Text("Username: ${currentUser!.name}")),
+            child: Text("Username: $_name")),
         Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text("Email: ${currentUser!.email}")),
+            child: Text("Email: $_email")),
         Padding(padding: EdgeInsets.all(16.0), child: Text("Likes: $_like")),
         Padding(
             padding: EdgeInsets.all(16.0), child: Text("Dislikes: $_dislike")),

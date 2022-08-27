@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
         '/search': (context) => SearchPage(),
         '/edit_profile': (context) => EditProfile(),
         '/shop_ingredients': ((context) => ShopIngredients()),
+        '/cart': ((context) => CartPage()),
       },
     );
   }

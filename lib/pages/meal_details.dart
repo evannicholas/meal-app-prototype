@@ -8,6 +8,21 @@ class MealDetails extends StatefulWidget {
 }
 
 class _MealDetailsState extends State<MealDetails> {
+  void addMealToCart(MealClass meal) {
+    bool exist = false;
+    // if (cart.isNotEmpty) {
+    for (var element in cart) {
+      if (element.meal.id == meal.id) {
+        element.count++;
+        exist = true;
+      }
+    }
+    // }
+    if (!exist) {
+      cart.add(MealCartClass(1, meal));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as MealClass;
@@ -32,14 +47,16 @@ class _MealDetailsState extends State<MealDetails> {
         child: Column(
           children: [
             Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(args.imageUrl),
-                  fit: BoxFit.cover,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(args.imageUrl),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              child: SizedBox(height: 250,width: double.infinity,)
-            ),
+                child: SizedBox(
+                  height: 250,
+                  width: double.infinity,
+                )),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
               child: Column(
@@ -50,7 +67,9 @@ class _MealDetailsState extends State<MealDetails> {
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 25),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, "/shop_ingredients");
+                  // Navigator.pushNamed(context, "/shop_ingredients");
+                  addMealToCart(args);
+                  print(cart);
                 },
                 child: Text("Shop Ingredients"),
               ),

@@ -90,7 +90,22 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(title: Text("Home")),
+      appBar: AppBar(
+        title: Text("Home"),
+        actions: [
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/cart');
+                },
+                child: Icon(
+                  Icons.shopping_cart,
+                  size: 26.0,
+                ),
+              )),
+        ],
+      ),
       body: getHomeWidget(context),
       bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
@@ -290,7 +305,7 @@ class _SearchBarState extends State<SearchBar> {
                                 alignment: Alignment.topRight,
                                 child: TextButton(
                                     onPressed: () => {
-                                          setState(() {
+                                          setState((){
                                             clearHistory();
                                             currentUser!.history.clear();
                                           })

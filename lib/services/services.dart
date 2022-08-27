@@ -12,5 +12,4 @@ part 'auth.dart';
 part 'swipecards.dart';
 part 'favorite.dart';
 part 'search.dart';
-
-
+part 'cart.dart';

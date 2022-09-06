@@ -48,6 +48,7 @@ class _EditProfileState extends State<EditProfile> {
                 SizedBox(
                   height: 35,
                 ),
+                
                 buildTextField(
                     "Full Name", user?.displayName, false, nameController),
                 buildTextField("E-mail", user?.email, false, emailController),

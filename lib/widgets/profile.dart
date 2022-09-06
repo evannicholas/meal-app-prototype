@@ -19,7 +19,7 @@ class ProfileWidgetState extends State<ProfileWidget> {
 
   // User? _user = FirebaseAuth.instance.currentUser;
   void assignLikeAndDislike() {
-    setState(() {
+    setState(() { 
       _like = currentUser!.likes.length;
       _dislike = currentUser!.dislikes.length;
       _name = currentUser!.name;
@@ -42,7 +42,10 @@ class ProfileWidgetState extends State<ProfileWidget> {
               bottom: 0,
               right: 4,
               child:
-                  buildEditIcon(Theme.of(context).colorScheme.primary, false))
+              InkWell(child: Container(child: buildEditIcon(Theme.of(context).colorScheme.primary, false)),
+              onTap: () => Navigator.pushNamed(context, '/edit_profile')
+              )
+          )
         ],
       ),
       displayInformation()

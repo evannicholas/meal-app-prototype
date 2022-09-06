@@ -8,20 +8,7 @@ class MealDetails extends StatefulWidget {
 }
 
 class _MealDetailsState extends State<MealDetails> {
-  void addMealToCart(MealClass meal) {
-    bool exist = false;
-    // if (cart.isNotEmpty) {
-    for (var element in cart) {
-      if (element.meal.id == meal.id) {
-        element.count++;
-        exist = true;
-      }
-    }
-    // }
-    if (!exist) {
-      cart.add(MealCartClass(1, meal));
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {

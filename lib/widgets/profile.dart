@@ -6,7 +6,7 @@ class ProfileWidget extends StatefulWidget {
 }
 
 class ProfileWidgetState extends State<ProfileWidget> {
-  final String imageLink = "https://cdn-icons-png.flaticon.com/512/1946/1946429.png";
+  String _imageLink = "https://cdn-icons-png.flaticon.com/512/1946/1946429.png";
   final user = FirebaseAuth.instance.currentUser;
   var _context = null;
   var _like, _dislike, _name, _email = null;
@@ -19,7 +19,7 @@ class ProfileWidgetState extends State<ProfileWidget> {
 
   // User? _user = FirebaseAuth.instance.currentUser;
   void assignLikeAndDislike() {
-    setState(() { 
+    setState(() {
       _like = currentUser!.likes.length;
       _dislike = currentUser!.dislikes.length;
       _name = currentUser!.name;
@@ -35,21 +35,38 @@ class ProfileWidgetState extends State<ProfileWidget> {
     return SingleChildScrollView(
         child: Center(
             child: Column(children: <Widget>[
+      const SizedBox(
+        height: 35,
+      ),
       Stack(
         children: [
           imageBuild(),
           Positioned(
               bottom: 0,
               right: 4,
-              child:
-              InkWell(child: Container(child: buildEditIcon(Theme.of(context).colorScheme.primary, false)),
-              onTap: () => Navigator.pushNamed(context, '/edit_profile')
-              )
-          )
+              child: InkWell(
+                  child: Container(
+                      child: buildEditIcon(
+                          Theme.of(context).colorScheme.primary, false)),
+                  onTap: () {
+                    _editProfile(context);
+                  }))
         ],
       ),
       displayInformation()
     ])));
+  }
+
+  Future<void> _editProfile(BuildContext context) async {
+    final result = await Navigator.push(context, 
+    MaterialPageRoute(builder:(context)=> const EditProfile()));
+    print("this is $result");
+    if (result != null) {
+      setState(() {
+        print(result.toString());
+        _imageLink = result.toString();
+      });
+    }
   }
 
   Widget buildEditIcon(Color color, bool isEdit) => buildCircle(
@@ -85,12 +102,9 @@ class ProfileWidgetState extends State<ProfileWidget> {
     });
     return Column(
       children: <Widget>[
+        Padding(padding: EdgeInsets.all(16.0), child: Text("Username: $_name")),
         Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text("Username: $_name")),
-        Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text("Email: $_email")),
+            padding: const EdgeInsets.all(16.0), child: Text("Email: $_email")),
         Padding(padding: EdgeInsets.all(16.0), child: Text("Likes: $_like")),
         Padding(
             padding: EdgeInsets.all(16.0), child: Text("Dislikes: $_dislike")),
@@ -113,8 +127,8 @@ class ProfileWidgetState extends State<ProfileWidget> {
   }
 
   Widget imageBuild() {
-    final img = NetworkImage(imageLink);
-
+    final img = NetworkImage(_imageLink);
+    print("this is $_imageLink");
     return ClipOval(
       child: Material(
         color: Colors.transparent,
@@ -124,7 +138,7 @@ class ProfileWidgetState extends State<ProfileWidget> {
           width: 128,
           height: 128,
           child: InkWell(onTap: () {
-            Navigator.pushNamed(context, '/edit_profile');
+            _editProfile(context);
           }),
         ),
       ),

@@ -7,7 +7,7 @@ void addMealToCart(MealClass meal) {
   bool exist = false;
 
   for (var element in cart) {
-    if (element['meal'].id == meal.id) {
+    if (element['meal'] == meal.id) {
       element['count'] = element['count'] + 1;
       exist = true;
     }
@@ -25,6 +25,10 @@ void addMealToCart(MealClass meal) {
 
 }
 
-void loadCart(){
+Future<void> loadCart() async {
+  //get data
+  DocumentSnapshot doc = await firestore.collection("users").doc(currentUser!.id).get();
+  var data = doc.data() as Map<String, dynamic>;
+  var cart = data['cart'];
 
 }

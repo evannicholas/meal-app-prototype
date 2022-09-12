@@ -1,4 +1,4 @@
-// part of 'pages.dart';
+part of 'pages.dart';
 
 // class CartPage extends StatefulWidget {
 //   const CartPage({super.key});

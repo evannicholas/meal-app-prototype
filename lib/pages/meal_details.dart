@@ -8,23 +8,37 @@ class MealDetails extends StatefulWidget {
 }
 
 class _MealDetailsState extends State<MealDetails> {
-  
-
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as MealClass;
+    int itemQuantity = 0;
 
     List<Widget> getIngredientWidgets() {
       List<Widget> ingredientWidgets = [];
       args.ingredients.forEach((key, value) {
-        print("========");
-        print(key);
-        print(value);
-        print("========");
         IngredientWidget(keyTitle: key, value: value);
         ingredientWidgets.add(IngredientWidget(keyTitle: key, value: value));
       });
       return ingredientWidgets;
+    }
+
+    void getItemQuantityFromCart() {
+      // Grab item quantitiy (Reactive)
+      for (var item in cart) {
+        if (args.id == item['meal']) {
+          setState(() {
+            itemQuantity = item['count'];
+            print("setting state");
+          });
+        }
+      }
+    }
+
+    @override
+    void initState() {
+      super.initState();
+      loadCart();
+      getItemQuantityFromCart();
     }
 
     // getIngredients();
@@ -47,19 +61,47 @@ class _MealDetailsState extends State<MealDetails> {
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
               child: Column(
-                children: getIngredientWidgets(),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(args.details),
+                  )
+                ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 25),
-              child: ElevatedButton(
-                onPressed: () {
-                  // Navigator.pushNamed(context, "/shop_ingredients");
-                  addMealToCart(args);
-                  print(cart);
-                },
-                child: Text("Shop Ingredients"),
-              ),
+              child: itemQuantity == 0
+                  ? ElevatedButton(
+                      onPressed: () {
+                        // Navigator.pushNamed(context, "/shop_ingredients");
+                        addMealToCart(args);
+                        print(cart);
+                        getItemQuantityFromCart();
+                      },
+                      child: Text("Add to Cart"),
+                    )
+                  : Row(
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              addMealToCart(args);
+                              print(cart);
+                              loadCart();
+                              getItemQuantityFromCart();
+                            },
+                            child: Icon(Icons.remove)),
+                        Text(itemQuantity.toString()),
+                        ElevatedButton(
+                            onPressed: () {
+                              addMealToCart(args);
+                              print(cart);
+                              loadCart();
+                              getItemQuantityFromCart();
+                            },
+                            child: Icon(Icons.add))
+                      ],
+                    ),
             )
           ],
         ),

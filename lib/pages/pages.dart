@@ -18,3 +18,4 @@ part 'meal_details.dart';
 part 'edit_profile.dart';
 part 'search.dart';
 part 'cart.dart';
+part 'selectLocation.dart';

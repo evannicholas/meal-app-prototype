@@ -58,8 +58,8 @@ class ProfileWidgetState extends State<ProfileWidget> {
   }
 
   Future<void> _editProfile(BuildContext context) async {
-    final result = await Navigator.push(context, 
-    MaterialPageRoute(builder:(context)=> const EditProfile()));
+    final result = await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const EditProfile()));
     print("this is $result");
     if (result != null) {
       setState(() {
@@ -120,6 +120,19 @@ class ProfileWidgetState extends State<ProfileWidget> {
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
                 Navigator.pushReplacementNamed(context, "/login");
+              }),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ElevatedButton(
+              child: Text("update address"),
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromARGB(255, 42, 201, 2),
+                shape: const BeveledRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5))),
+              ),
+              onPressed: () async {
+                Navigator.pushNamed(context, "/set_location");
               }),
         )
       ],

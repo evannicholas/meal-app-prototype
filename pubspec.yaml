@@ -41,7 +41,7 @@ dependencies:
   image_cropper: ^3.0.0
   image_picker: ^0.8.5+3
   material_floating_search_bar: ^0.3.7
-  permission_handler: ^10.0.0
+  permission_handler: ^9.2.0
   string_similarity: ^2.0.0
   swipe_cards: ^1.0.0
 

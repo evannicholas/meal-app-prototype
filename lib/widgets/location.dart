@@ -26,11 +26,11 @@ class _LocationWidgetState extends State<LocationWidget> {
     mapController = controller;
   }
 
-  @override
-  void initState() {
-    super.initState();
-    Permission.location.request();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Permission.location.request();
+  // }
 
   @override
   Widget build(BuildContext context) {

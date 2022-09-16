@@ -131,8 +131,9 @@ class ProfileWidgetState extends State<ProfileWidget> {
                 shape: const BeveledRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(5))),
               ),
-              onPressed: () async {
-                Navigator.pushNamed(context, "/set_location");
+              onPressed: () {
+                Permission.location.request().then(
+                    (value) => Navigator.pushNamed(context, "/set_location"));
               }),
         )
       ],

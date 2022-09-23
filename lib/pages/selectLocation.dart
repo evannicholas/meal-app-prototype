@@ -97,6 +97,7 @@ class _SelectLocationPageState extends State<SelectLocationPage> {
                   });
 
                   Navigator.pop(context);
+                  reloadUserData();
                 },
                 child: Text('Add Address'))
           ]),

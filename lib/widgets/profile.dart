@@ -100,45 +100,62 @@ class ProfileWidgetState extends State<ProfileWidget> {
     setState(() {
       assignLikeAndDislike();
     });
-    return Column(
-      children: <Widget>[
-        Padding(padding: EdgeInsets.all(16.0), child: Text("Username: $_name")),
-        Padding(
-            padding: const EdgeInsets.all(16.0), child: Text("Email: $_email")),
-        Padding(padding: EdgeInsets.all(16.0), child: Text("Likes: $_like")),
-        Padding(
-            padding: EdgeInsets.all(16.0), child: Text("Dislikes: $_dislike")),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: ElevatedButton(
-              child: Text("Log Out"),
-              style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 6, 65, 167),
-                shape: const BeveledRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5))),
-              ),
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.pushReplacementNamed(context, "/login");
-              }),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: ElevatedButton(
-              child: Text("Add address"),
-              style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 42, 201, 2),
-                shape: const BeveledRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5))),
-              ),
-              onPressed: () {
-                Permission.location.request().then((value) {
-                  Navigator.pushNamed(context, "/set_location")
-                      .then((result) {});
-                });
-              }),
-        ),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Padding(
+              padding: EdgeInsets.all(16.0), child: Text("Username: $_name")),
+          Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text("Email: $_email")),
+          Padding(padding: EdgeInsets.all(16.0), child: Text("Likes: $_like")),
+          Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text("Dislikes: $_dislike")),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton(
+                child: Text("Log Out"),
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 6, 65, 167),
+                  shape: const BeveledRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5))),
+                ),
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                  Navigator.pushReplacementNamed(context, "/login");
+                }),
+          ),
+          SizedBox(
+            height: 200,
+            child: ListView.builder(
+                padding: const EdgeInsets.all(8),
+                itemCount: currentUser!.locations.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    height: 50,
+                    child: Text(currentUser!.locations[index]['name']),
+                  );
+                }),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton(
+                child: Text("Add address"),
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 42, 201, 2),
+                  shape: const BeveledRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5))),
+                ),
+                onPressed: () {
+                  Permission.location.request().then((value) {
+                    Navigator.pushNamed(context, "/set_location")
+                        .then((result) {});
+                  });
+                }),
+          ),
+        ],
+      ),
     );
   }
 

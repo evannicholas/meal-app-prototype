@@ -125,17 +125,19 @@ class ProfileWidgetState extends State<ProfileWidget> {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
-              child: Text("update address"),
+              child: Text("Add address"),
               style: ElevatedButton.styleFrom(
                 primary: Color.fromARGB(255, 42, 201, 2),
                 shape: const BeveledRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(5))),
               ),
               onPressed: () {
-                Permission.location.request().then(
-                    (value) => Navigator.pushNamed(context, "/set_location"));
+                Permission.location.request().then((value) {
+                  Navigator.pushNamed(context, "/set_location")
+                      .then((result) {});
+                });
               }),
-        )
+        ),
       ],
     );
   }

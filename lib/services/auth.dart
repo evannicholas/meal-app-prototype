@@ -16,8 +16,10 @@ Future<bool> loginAuth(String email, String password) async {
     var likes = (data['likes'] as List).map((x) => x as String).toList();
     var dislikes = (data['dislikes'] as List).map((x) => x as String).toList();
     var history = (data['history'] as List).map((x) => x as String).toList();
+    var locations = (data['locations'] as List).map((x) => x as Map).toList();
+    // var locations = data['locations'];
     currentUser = UserModel(credential.user!.uid, data['name'],
-        credential.user!.email!, likes, dislikes, history);
+        credential.user!.email!, likes, dislikes, history, locations);
     result = true;
     print(history.elementAt(0));
   } on FirebaseAuthException catch (e) {
@@ -37,8 +39,13 @@ Future<void> signUp(String name, String email, String password) async {
   await FirebaseFirestore.instance
       .collection("users")
       .doc(userCredential.user!.uid)
-      .set({'name': name, 'likes': [], 'dislikes': [], 'history': []}).onError(
-          (e, _) => print("Error writing document: $e"));
+      .set({
+    'name': name,
+    'likes': [],
+    'dislikes': [],
+    'history': [],
+    'locations': []
+  }).onError((e, _) => print("Error writing document: $e"));
 }
 
 Future<void> autoLogin(User user) async {
@@ -49,6 +56,8 @@ Future<void> autoLogin(User user) async {
   var likes = (data['likes'] as List).map((x) => x as String).toList();
   var dislikes = (data['dislikes'] as List).map((x) => x as String).toList();
   var history = (data['history'] as List).map((x) => x as String).toList();
+  // var locations = data['locations'];
+  var locations = (data['locations'] as List).map((x) => x as Map).toList();
   print("============================");
   //  print(likes);
   //  print(user.uid);
@@ -56,8 +65,8 @@ Future<void> autoLogin(User user) async {
   //  print(data['likes'] == likes);
   //  print(data['dislikes'].toString() == dislikes);
   print("============================");
-  currentUser =
-      UserModel(user.uid, data['name'], user.email!, likes, dislikes, history);
+  currentUser = UserModel(
+      user.uid, data['name'], user.email!, likes, dislikes, history, locations);
 }
 
 Future<void> reloadUserData() async {
@@ -70,8 +79,10 @@ Future<void> reloadUserData() async {
   var likes = (data['likes'] as List).map((x) => x as String).toList();
   var dislikes = (data['dislikes'] as List).map((x) => x as String).toList();
   var history = (data['history'] as List).map((x) => x as String).toList();
+  // var locations = data['locations'];
+  var locations = (data['locations'] as List).map((x) => x as Map).toList();
   currentUser = UserModel(currentUser!.id, data['name'], currentUser!.email,
-      likes, dislikes, history);
+      likes, dislikes, history, locations);
 }
 
 Future getCurrentUser() async {
